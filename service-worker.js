@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/bounty-hunter/precache-manifest.dba9df82556b9ee3f60ad46767cb400f.js"
+  "/bounty-hunter/precache-manifest.b4c725bde8608b44018c35bae8c299ac.js"
 );
 
 workbox.clientsClaim();
