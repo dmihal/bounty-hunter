@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/bounty-hunter/static/js/runtime~main.308013d6.js"
   },
   {
-    "revision": "46f25296eb38440cd5f0",
-    "url": "/bounty-hunter/static/js/main.f28bd28f.chunk.js"
+    "revision": "133db2012401a390e92a",
+    "url": "/bounty-hunter/static/js/main.bc409ea0.chunk.js"
   },
   {
     "revision": "65532db7dc89a7f167b5",
     "url": "/bounty-hunter/static/js/2.81e1c3ba.chunk.js"
   },
   {
-    "revision": "46f25296eb38440cd5f0",
+    "revision": "133db2012401a390e92a",
     "url": "/bounty-hunter/static/css/main.018cbba2.chunk.css"
   },
   {
-    "revision": "1c674a55971e864a680087062b441cfa",
+    "revision": "f79fb84ee0ff1b8f6e36799dceacfb5a",
     "url": "/bounty-hunter/index.html"
   }
 ];
