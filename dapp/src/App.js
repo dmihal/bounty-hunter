@@ -13,11 +13,12 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 
 import bountyArtifact from '../../build/contracts/BountyHunter.json';
-//import erc20artifact from '../../build/contracts/ERC20.json';
+import erc20artifact from '../../build/contracts/ERC20.json';
 
 const BountyHunter = truffleContract(bountyArtifact);
 BountyHunter.setProvider(window.ethereum);
-//const ERC20 = truffleContract(erc20artifact);
+const ERC20 = truffleContract(erc20artifact);
+ERC20.setProvider(window.ethereum);
 
 class App extends Component {
 
@@ -48,8 +49,19 @@ class App extends Component {
       this.contract.getPastEvents('BountyWon', { filter: {user: account } }),
     ]);
     const addData = async (event) => {
+      const info = await this.contract.getBountyInfo(event.returnValues.id);
+      const tokenName = await (await ERC20.at(info[0])).name.call();
       event.extraData = {
         holder: await this.contract.currentHolder(event.returnValues.id),
+        token: info[0],
+        tokenName,
+        creator: info[1],
+        winner: info[2],
+        created: info[3],
+        reward: info[4],
+        winnerConfirmed: info[5],
+        canceled: info[6],
+        steps: info[7],
       };
       return event;
     }
@@ -138,7 +150,7 @@ const Bounty = ({ bounty, contract, web3, account, loadData }) => {
   const [next, setNext] = React.useState('');
   return (
     <Paper>
-      <Typography>{bounty.returnValues.id}</Typography>
+      <Typography>#{bounty.returnValues.id}: Searching for a {bounty.extraData.tokenName} holder</Typography>
       <Typography>Current holder: {bounty.extraData.holder}</Typography>
 
       {bounty.extraData.holder === account && (

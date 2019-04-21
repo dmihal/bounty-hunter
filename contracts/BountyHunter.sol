@@ -1,8 +1,8 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 contract ERC20 {
-  function name() public returns (string memory);
-  function balanceOf(address) public returns (uint);
+  function name() public view returns (string memory);
+  function balanceOf(address) public view returns (uint);
 }
 
 contract BountyHunter {
@@ -36,7 +36,7 @@ contract BountyHunter {
     emit BountyCreated(targetToken, msg.sender, id);
   }
 
-  function getBountyInfo(uint id) external returns (address, address, address, uint, uint, bool, bool, uint) {
+  function getBountyInfo(uint id) external view returns (address, address, address, uint, uint, bool, bool, uint) {
     Bounty storage bounty = bounties[id];
     return (bounty.targetToken, bounty.creator, bounty.winner, bounty.created, bounty.reward, bounty.winnerConfirmed, bounty.canceled, bounty.steps.length);
   }
