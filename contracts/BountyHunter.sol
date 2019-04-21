@@ -1,6 +1,7 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 contract ERC20 {
+  function name() public returns (string memory);
   function balanceOf(address) public returns (uint);
 }
 
@@ -18,13 +19,13 @@ contract BountyHunter {
 
   Bounty[] bounties;
 
-  event BountyCreated(address targetToken, uint id);
+  event BountyCreated(address targetToken, address indexed creator, uint id);
   event BountyPassed(uint indexed id, address indexed from, address indexed to);
-  event BountyWon(uint indexed id);
+  event BountyWon(uint indexed id, address indexed user);
   event BountyConfirmed(uint indexed id);
 
   function createBounty(address targetToken) public payable {
-
+    require(msg.value > 0);
     uint id = bounties.length;
     bounties.length += 1;
     bounties[id].targetToken = targetToken;
@@ -32,7 +33,12 @@ contract BountyHunter {
     bounties[id].reward = msg.value;
     bounties[id].created = now;
 
-    emit BountyCreated(targetToken, id);
+    emit BountyCreated(targetToken, msg.sender, id);
+  }
+
+  function getBountyInfo(uint id) external returns (address, address, address, uint, uint, bool, bool, uint) {
+    Bounty storage bounty = bounties[id];
+    return (bounty.targetToken, bounty.creator, bounty.winner, bounty.created, bounty.reward, bounty.winnerConfirmed, bounty.canceled, bounty.steps.length);
   }
 
   function currentHolder(uint id) public view returns (address) {
@@ -94,7 +100,7 @@ contract BountyHunter {
 
   function winner(uint id, address payable _winner) internal {
     bounties[id].winner = _winner;
-    emit BountyWon(id);
+    emit BountyWon(id, _winner);
   }
 
   function pass(uint id, address payable nextHolder) internal {
